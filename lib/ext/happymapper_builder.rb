@@ -17,54 +17,54 @@ module HappyMapper
         memo
       end
     end
-  
-    def to_xml(options = {})
-      builder = Nokogiri::XML::Builder.new do |xml|
-        xml.send(options[:root] || self.class.tag_name, attributes) do |xml_obj|
-          self.class.elements.each do |happymapper_element|
-            if self.send(happymapper_element.name) != nil
-              append_xml_element(xml_obj, happymapper_element)
-            end
-          end
-
-          if self.class.respond_to?(:content) && !self.class.content_accessor.nil?
-            xml_obj.text self.send(self.class.content_accessor)
-          end
-        end
-      end
-      
-      builder.to_xml(options)
-    end
-  
-    private
-    def append_xml_element(builder, happymapper_element)
-      recursive_element(builder, happymapper_element.tag) do |new_builder, tag|
-        if self.send(happymapper_element.method_name) != nil
-          if happymapper_element.primitive?
-            new_builder.send(tag, self.send(happymapper_element.name))
-          else
-            #it's a nested happymapper object or array of objects
-            values = self.send(happymapper_element.name)
-            values = [values] unless values.is_a?(Array)
-            values.each {|i| new_builder << i.to_xml(:skip_instruct => true, :root => tag, :builder => new_builder) }
-          end
-        end
+    
+    def element_map
+      self.class.elements.inject({}) do |map, element|
+        recursive_element_map(map, element)
+        map
       end
     end
     
-    def recursive_element(builder, tag_name, &block)
-      other_tags = tag_name.is_a?(Array) ? tag_name : tag_name.split("\/") 
-      tag = other_tags.shift
-      if tag
-        builder.send(tag) do |new_builder|
-          if other_tags.empty?
-            yield(new_builder, tag)
-          else
-            recursive_element(new_builder, other_tags, &block)
+    def recursive_element_map(map, element, tags = nil)
+      tags = tags || element.tag.split("/")
+      if tags.size == 1
+        map[tags.first] = element
+      else
+        map[tags.first] ||= {}
+        recursive_element_map(map[tags.first], element, tags[1..-1])
+      end
+    end
+    
+    def to_xml(options = {})
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.send(options[:root] || self.class.tag_name, attributes) do |xml_obj|
+          if self.class.respond_to?(:content) && !self.class.content_accessor.nil?
+            xml_obj.text self.send(self.class.content_accessor)
+          end
+          recurse_through_element_map(xml_obj, element_map)
+        end
+      end
+      builder.to_xml(options)
+    end
+    
+    def recurse_through_element_map(xml_obj, element_map)
+      element_map.each do |key, value|
+        if value.is_a?(HappyMapper::Element)
+          happymapper_element = value
+          if self.send(happymapper_element.name) != nil
+            if happymapper_element.primitive?
+              xml_obj.send(key, self.send(happymapper_element.name))
+            else
+              values = self.send(happymapper_element.name)
+              values = [values] unless values.kind_of?(Array)
+              values.each {|i| xml_obj << i.to_xml(:skip_instruct => true, :root => key, :builder => xml_obj) }
+            end
+          end
+        else
+          xml_obj.send(key) do |new_builder|
+            recurse_through_element_map(new_builder, value)
           end
         end
-      else
-        yield(builder, tag_name)
       end
     end
   end

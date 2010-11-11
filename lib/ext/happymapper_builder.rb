@@ -12,14 +12,14 @@ module HappyMapper
     end
     
     def attributes
-      self.class.attributes.inject({}) do |memo, attr|
-        memo[attr.name.to_sym] = self.send(attr.name)
+      self.class.attributes.inject(Columbo::OrderedHash.new) do |memo, attr|
+        memo[(attr.tag || attr.name).to_sym] = self.send(attr.name)
         memo
       end
     end
     
     def element_map
-      self.class.elements.inject({}) do |map, element|
+      self.class.elements.inject(Columbo::OrderedHash.new) do |map, element|
         recursive_element_map(map, element)
         map
       end
@@ -30,12 +30,12 @@ module HappyMapper
       if tags.size == 1
         map[tags.first] = element
       else
-        map[tags.first] ||= {}
+        map[tags.first] ||= Columbo::OrderedHash.new
         recursive_element_map(map[tags.first], element, tags[1..-1])
       end
     end
     
-    def to_xml(options = {})
+    def to_xml(options = Columbo::OrderedHash.new)
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.send(options[:root] || self.class.tag_name, attributes) do |xml_obj|
           if self.class.respond_to?(:content) && !self.class.content_accessor.nil?

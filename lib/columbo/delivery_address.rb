@@ -2,7 +2,7 @@ module Columbo
   class DeliveryAddress < Base
     tag "DeliveryAddress"
     
-    element :street_number, :tag => "StreetName"
-    element :building_number, :tag => "BuildingNumber"
+    element :street_name, String, :tag => "StreetName"
+    element :building_number, String, :tag => "BuildingNumber"
   end
 end

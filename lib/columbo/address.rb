@@ -1,6 +1,6 @@
 module Columbo
   class Address < Base
-    attribute :type, String
+    attribute :address_type, String, :tag => "type"
     element :country_code, String, :tag => "CountryCode"
     element :postal_code, String, :tag => "PostalCode"
     element :region, String, :tag => "Region"

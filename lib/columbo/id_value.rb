@@ -1,6 +1,8 @@
 module Columbo
   class IdValue < Base
-    attribute :name, String, :tag => "IdValue"
+    tag "IdValue"
+    
+    attribute :name, String, :tag => "name"
     content :value
   end
 end

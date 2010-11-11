@@ -1,1 +1,1 @@
-rvm gemset use ree@columbo
+rvm use ree@columbo

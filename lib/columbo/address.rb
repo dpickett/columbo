@@ -5,6 +5,6 @@ module Columbo
     element :postal_code, String, :tag => "PostalCode"
     element :region, String, :tag => "Region"
     element :municipality, String, :tag => "Municipality"
-    has_one :delivery_address, Columbo::Address, :tag => "DeliveryAddress"
+    has_one :delivery_address, Columbo::DeliveryAddress, :tag => "DeliveryAddress"
   end
 end

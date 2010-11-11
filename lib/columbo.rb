@@ -3,6 +3,7 @@ require 'happymapper'
 require 'nokogiri'
 
 require 'ext/nokogiri_skip_instruct'
+require 'ext/ordered_hash'
 
 require 'ext/happymapper_builder'
 

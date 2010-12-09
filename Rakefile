@@ -15,6 +15,7 @@ begin
     gem.add_dependency "nokogiri"
     gem.add_development_dependency "rspec", ">= 2.0.0"
     gem.add_development_dependency "yard", ">= 0"
+    gem.add_development_dependency "mocha"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

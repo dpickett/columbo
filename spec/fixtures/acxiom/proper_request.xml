@@ -1,0 +1,64 @@
+<BackgroundCheck xmlns="http://ns.hr-xml.org/2004-08-02" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ns.hr-xml.org/2004-08-02 BackgroundCheck.xsd" userId="userIdValue">
+	<BackgroundSearchPackage>
+		<ReferenceId>
+			<IdValue>0015792</IdValue>
+		</ReferenceId>
+		<PersonalData>
+			<PersonName>
+				<GivenName>Mischa</GivenName>
+				<MiddleName>A</MiddleName>
+				<FamilyName primary="true">Suvari</FamilyName>
+				<FamilyName primary="false">Barrington</FamilyName>
+			</PersonName>
+			<PersonName>
+				<GivenName>Aubrae</GivenName>
+				<MiddleName></MiddleName>
+				<FamilyName>Suvari</FamilyName>
+			</PersonName>
+			<PostalAddress type="streetAddress">
+				<CountryCode>US</CountryCode>
+				<PostalCode>90448</PostalCode>
+				<Region>CA</Region>
+				<Municipality>Harmony</Municipality>
+				<DeliveryAddress>
+					<StreetName>Saint Ellington Avenue</StreetName>
+					<BuildingNumber>80921</BuildingNumber>
+				</DeliveryAddress>
+			</PostalAddress>
+			<ContactMethod>
+				<Telephone>
+					<FormattedNumber>804-641-9250</FormattedNumber>
+				</Telephone>
+			</ContactMethod>
+			<DemographicDetail>
+				<GovernmentId countryCode="US" issuingAuthority="SSN">111223333</GovernmentId>
+				<DateOfBirth>1978-11-04</DateOfBirth>
+			</DemographicDetail>
+		</PersonalData>
+		<Screenings>
+			<ClientReferences>				 
+				<!-- Note: Insert your subcode in the following node -->
+				<IdValue name="Subcode">E8085235</IdValue> 
+				<IdValue name="Location">TEST LOCATION 1</IdValue>
+				<IdValue name="Category">2</IdValue>
+				<IdValue name="CustReference">Test Employee</IdValue>
+				<IdValue name="PermissiblePurpose">EP</IdValue>
+				<IdValue name="EndUser">End User Value</IdValue>
+				<IdValue name="Requestor">NC12753</IdValue>
+			</ClientReferences>
+			<!-- Package Code provided here -->
+			<PackageId>
+        <IdValue>9386</IdValue>  
+      </PackageId>
+			<!-- For residents of OK, MN and CA -->
+			<CopyToApplicant>1</CopyToApplicant> 
+			<!-- TRUSST -->
+			<Screening>
+				<ReferenceId>
+					<IdValue>5011</IdValue>
+				</ReferenceId>
+			</Screening>
+		</Screenings>
+	</BackgroundSearchPackage>
+</BackgroundCheck>
+
